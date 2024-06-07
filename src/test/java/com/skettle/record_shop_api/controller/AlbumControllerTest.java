@@ -1,5 +1,6 @@
 package com.skettle.record_shop_api.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -82,6 +84,24 @@ class AlbumControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Welcome to the DCC"));
+
+    }
+
+    @Test
+    @DisplayName("POST /album adds new album")
+    void addNewAlbumTest() throws Exception {
+
+        Album testAlbum = new Album(5L, new Artist(4L, "Jon Hopkins", null), new Genre(2L, null, "Electronic"), "Immunity", 2013, 5);
+
+        when(mockAlbumServiceImpl.addNewAlbum(testAlbum)).thenReturn(testAlbum);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.post("/api/v1/albums")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(testAlbum)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
+        verify(mockAlbumServiceImpl, times(1)).addNewAlbum(testAlbum);
 
     }
 }
