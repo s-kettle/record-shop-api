@@ -1,5 +1,6 @@
 package com.skettle.record_shop_api.service;
 
+import com.skettle.record_shop_api.exceptions.AlbumAlreadyExistsException;
 import com.skettle.record_shop_api.exceptions.AlbumNotFoundException;
 import com.skettle.record_shop_api.model.Album;
 import com.skettle.record_shop_api.repository.AlbumRepository;
@@ -30,6 +31,13 @@ public class AlbumServiceImpl implements AlbumService {
 
     @Override
     public Album addNewAlbum(Album album) {
+
+        Album existingAlbum = albumRepository.findById(album.getId()).orElse(null);
+
+        if (existingAlbum != null) {
+            throw new AlbumAlreadyExistsException("Album with ID " + album.getId() + " already exists.");
+        }
+
         return albumRepository.save(album);
     }
 
