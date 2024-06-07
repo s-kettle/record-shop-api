@@ -50,9 +50,9 @@ class AlbumControllerTest {
     void getAllAlbumsTest() throws Exception {
 
         List<Album> albums = new ArrayList<>(List.of(
-                new Album(1L, new Artist(1L, "Nothing But Thieves", null), new Genre(1L, null, "Rock"), "Moral Panic", 2020, 12),
-                new Album(2L, new Artist(2L, "Aphex Twin", null), new Genre(2L, null, "Electronic"), "Selected Ambient Works 85-92", 1992, 8),
-                new Album(3L, new Artist(3L, "Miles Davis", null), new Genre(3L, null, "Jazz"), "Some Kind of Blue", 1959, 2)
+                new Album(1L, new Artist(1L, "Nothing But Thieves", null), Genre.ROCK, "Moral Panic", 2020, 12),
+                new Album(2L, new Artist(2L, "Aphex Twin", null), Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
+                new Album(3L, new Artist(3L, "Miles Davis", null), Genre.JAZZ, "Some Kind of Blue", 1959, 2)
         ));
 
         when(mockAlbumServiceImpl.getAllAlbums()).thenReturn(albums);
@@ -71,7 +71,7 @@ class AlbumControllerTest {
     @DisplayName("GET /albums/:id returns correct album by ID")
     void getAlbumByIdTest() throws Exception {
 
-        Album testAlbum = new Album(4L, new Artist(1L, "Nothing But Thieves", null), new Genre(1L, null, "Rock"), "Welcome to the DCC", 2023, 4);
+        Album testAlbum = new Album(4L, new Artist(1L, "Nothing But Thieves", null), Genre.ROCK, "Welcome to the DCC", 2023, 4);
 
         when(mockAlbumServiceImpl.getAlbumById(4L)).thenReturn(testAlbum);
 
@@ -87,7 +87,7 @@ class AlbumControllerTest {
     @DisplayName("POST /album adds new album")
     void addNewAlbumTest() throws Exception {
 
-        Album testAlbum = new Album(5L, new Artist(4L, "Jon Hopkins", null), new Genre(2L, null, "Electronic"), "Immunity", 2013, 5);
+        Album testAlbum = new Album(5L, new Artist(4L, "Jon Hopkins", null), Genre.ELECTRONIC, "Immunity", 2013, 5);
 
         when(mockAlbumServiceImpl.addNewAlbum(testAlbum)).thenReturn(testAlbum);
 

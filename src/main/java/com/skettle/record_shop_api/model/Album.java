@@ -19,7 +19,6 @@ public class Album {
     @ManyToOne(fetch = FetchType.LAZY)
     Artist artist;
 
-    @ManyToOne(fetch = FetchType.LAZY)
     Genre genre;
 
     String name;
