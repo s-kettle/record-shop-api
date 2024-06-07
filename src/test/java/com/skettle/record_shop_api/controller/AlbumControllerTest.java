@@ -1,9 +1,6 @@
 package com.skettle.record_shop_api.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.skettle.record_shop_api.model.Album;
 import com.skettle.record_shop_api.model.Artist;
 import com.skettle.record_shop_api.model.Genre;
@@ -25,7 +22,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @AutoConfigureMockMvc

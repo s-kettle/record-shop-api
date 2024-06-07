@@ -11,23 +11,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/")
+@RequestMapping("/api/v1/albums")
 public class AlbumController {
 
     @Autowired
     AlbumService albumService;
 
-    @GetMapping("/albums")
+    @GetMapping
     public ResponseEntity<List<Album>> getAllAlbums() {
         return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
     }
 
-    @GetMapping("/albums/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Album> getAlbumById(@PathVariable long id) {
         return new ResponseEntity<>(albumService.getAlbumById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/albums")
+    @PostMapping
     public ResponseEntity<Album> addNewAlbum(@RequestBody Album album) {
         Album newAlbum = albumService.addNewAlbum(album);
         HttpHeaders httpHeaders = new HttpHeaders();
