@@ -41,4 +41,14 @@ public class AlbumServiceImpl implements AlbumService {
         return albumRepository.save(album);
     }
 
+    @Override
+    public Album updateAlbum(long id, Album album) {
+        Album albumToUpdate = albumRepository.findById(id)
+                .orElseThrow(() -> new AlbumNotFoundException("Album with ID" + id + " not found."));
+
+        albumRepository.deleteById(id);
+        albumRepository.save(album);
+        return album;
+    }
+
 }

@@ -82,4 +82,31 @@ class AlbumServiceImplTest {
         assertEquals(testAlbum, actualAlbum);
 
     }
+
+    @Test
+    @DisplayName("updateAlbum() updates and returns album")
+    void updateAlbum() {
+
+        Album testAlbum = new Album(6L, new Artist(5L, "Confidence Man", null), Genre.POP, "Tilt", 2022, 15);
+        Album updatedAlbum = new Album(6L, new Artist(5L, "Confidence Man", null), Genre.POP, "Re-Tilt", 2022, 15);
+
+        when(mockAlbumRepository.findById(6L)).thenReturn(Optional.of(testAlbum));
+
+        Album returnedAlbum = albumService.updateAlbum(6L, updatedAlbum);
+
+        assertEquals(updatedAlbum, returnedAlbum);
+
+    }
+
+    @Test
+    @DisplayName("updateAlbum() throws AlbumNotFoundException with invalid ID")
+    void updateAlbumExceptionTest() {
+
+        Album updatedAlbum = new Album(6L, new Artist(5L, "Confidence Man", null), Genre.POP, "Re-Tilt", 2022, 15);
+
+        assertThrows(AlbumNotFoundException.class, () -> {
+            albumService.updateAlbum(100L, updatedAlbum);
+        });
+
+    }
 }

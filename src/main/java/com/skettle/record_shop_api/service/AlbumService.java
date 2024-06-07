@@ -8,5 +8,6 @@ public interface AlbumService {
     List<Album> getAllAlbums();
     Album getAlbumById(long id);
     Album addNewAlbum(Album album);
+    Album updateAlbum(long id, Album album);
 
 }
