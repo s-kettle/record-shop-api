@@ -1,5 +1,6 @@
 package com.skettle.record_shop_api.service;
 
+import com.skettle.record_shop_api.exceptions.AlbumNotFoundException;
 import com.skettle.record_shop_api.model.Album;
 import com.skettle.record_shop_api.model.Artist;
 import com.skettle.record_shop_api.model.Genre;
@@ -12,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -26,7 +28,7 @@ class AlbumServiceImplTest {
     AlbumServiceImpl albumService;
 
     @Test
-    @DisplayName("GET /albums returns all albums")
+    @DisplayName("getAllAlbums() returns all albums")
     void getAllAlbumsTest() {
 
         List<Album> albums = new ArrayList<>(List.of(
@@ -40,6 +42,30 @@ class AlbumServiceImplTest {
         List<Album> actualAlbums = albumService.getAllAlbums();
 
         assertEquals(albums, actualAlbums);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumById() returns album by ID")
+    void getAlbumByIdTest() {
+
+        Album testAlbum = new Album(4L, new Artist(1L, "Nothing But Thieves", null), new Genre(1L, null, "Rock"), "Welcome to the DCC", 2023, 4);
+
+        when(mockAlbumRepository.findById(4L)).thenReturn(Optional.of(testAlbum));
+
+        Album actualAlbum = albumService.getAlbumById(4L);
+
+        assertEquals(testAlbum, actualAlbum);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumById() throws AlbumNotFoundException with invalid ID")
+    void getAlbumByIdExceptionTest() {
+
+        assertThrows(AlbumNotFoundException.class, () -> {
+            albumService.getAlbumById(100L);
+        });
 
     }
 }
