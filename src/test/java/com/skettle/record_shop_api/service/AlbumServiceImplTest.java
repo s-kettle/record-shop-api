@@ -68,4 +68,18 @@ class AlbumServiceImplTest {
         });
 
     }
+
+    @Test
+    @DisplayName("addNewAlbum() successfully persists album")
+    void addNewAlbumTest() {
+
+        Album testAlbum = new Album(5L, new Artist(4L, "Jon Hopkins", null), new Genre(2L, null, "Electronic"), "Immunity", 2013, 5);
+
+        when(mockAlbumRepository.save(testAlbum)).thenReturn(testAlbum);
+
+        Album actualAlbum = albumService.addNewAlbum(testAlbum);
+
+        assertEquals(testAlbum, actualAlbum);
+
+    }
 }
