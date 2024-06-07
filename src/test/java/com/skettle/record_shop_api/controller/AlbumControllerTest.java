@@ -8,6 +8,7 @@ import com.skettle.record_shop_api.model.Artist;
 import com.skettle.record_shop_api.model.Genre;
 import com.skettle.record_shop_api.service.AlbumServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -47,7 +48,8 @@ class AlbumControllerTest {
     }
 
     @Test
-    void getAllAlbums() throws Exception {
+    @DisplayName("GET /albums returns all albums")
+    void getAllAlbumsTest() throws Exception {
 
         List<Album> albums = new ArrayList<>(List.of(
                 new Album(1L, new Artist(1L, "Nothing But Thieves", null), new Genre(1L, null, "Rock"), "Moral Panic", 2020, 12),
@@ -64,6 +66,22 @@ class AlbumControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Moral Panic"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Selected Ambient Works 85-92"));
+
+    }
+
+    @Test
+    @DisplayName("GET /albums/:id returns correct album by ID")
+    void getAlbumByIdTest() throws Exception {
+
+        Album testAlbum = new Album(4L, new Artist(1L, "Nothing But Thieves", null), new Genre(1L, null, "Rock"), "Welcome to the DCC", 2023, 4);
+
+        when(mockAlbumServiceImpl.getAlbumById(4L)).thenReturn(testAlbum);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/albums/4"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(4))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Welcome to the DCC"));
 
     }
 }
