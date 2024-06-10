@@ -7,6 +7,13 @@ not cutting it in the 21st century. The store has asked for a robust, well-teste
 to manage their large inventory of records. This should leverage the power of Spring Boot to create
 RESTful endpoints.
 
+# Technology
+- Spring Boot
+- JPA & Hibernate
+- PostgreSQL
+- TDD / Mockito
+- MVC architecture
+
 # API
 
 ## Accessing the API
