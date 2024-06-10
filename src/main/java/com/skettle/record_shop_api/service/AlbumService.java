@@ -11,6 +11,7 @@ public interface AlbumService {
     List<Album> getAlbumsByArtist(String artist);
     List<Album> getAlbumsByYear(int year);
     List<Album> getAlbumByName(String name);
+    List<Album> getAlbumByGenre(String genre);
 
     Album addNewAlbum(Album album);
     Album updateAlbum(long id, Album album);

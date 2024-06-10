@@ -2,7 +2,9 @@ package com.skettle.record_shop_api.service;
 
 import com.skettle.record_shop_api.exceptions.AlbumAlreadyExistsException;
 import com.skettle.record_shop_api.exceptions.AlbumNotFoundException;
+import com.skettle.record_shop_api.exceptions.GenreNotAllowedException;
 import com.skettle.record_shop_api.model.Album;
+import com.skettle.record_shop_api.model.Genre;
 import com.skettle.record_shop_api.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +57,17 @@ public class AlbumServiceImpl implements AlbumService {
         List<Album> albums = new ArrayList<>();
         albumRepository.findAll().forEach(albums::add);
         return albums.stream().filter(a -> a.getName().equalsIgnoreCase(name)).toList();
+    }
+
+    @Override
+    public List<Album> getAlbumByGenre(String genre) {
+        String genreUpper = genre.toUpperCase();
+        if (!Genre.isValid(genreUpper)) { throw new GenreNotAllowedException("Genre " + genre + " is not permitted."); };
+
+        List<Album> albums = new ArrayList<>();
+        albumRepository.findAll().forEach(albums::add);
+        return albums.stream().filter(a -> a.getGenre().equals(Genre.valueOf(genreUpper))).toList();
+
     }
 
     @Override

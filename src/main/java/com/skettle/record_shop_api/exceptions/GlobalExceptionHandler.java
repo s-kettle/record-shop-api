@@ -22,6 +22,13 @@ public class GlobalExceptionHandler {
                 .body(e.getMessage());
     }
 
+    @ExceptionHandler({GenreNotAllowedException.class})
+    public ResponseEntity<Object> handleGenreNotAllowedException(GenreNotAllowedException e) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(e.getMessage());
+    }
+
     @ExceptionHandler({RuntimeException.class})
     public ResponseEntity<Object> handleRuntimeException(RuntimeException e) {
         return ResponseEntity

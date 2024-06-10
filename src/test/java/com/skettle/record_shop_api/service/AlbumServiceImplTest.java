@@ -1,6 +1,7 @@
 package com.skettle.record_shop_api.service;
 
 import com.skettle.record_shop_api.exceptions.AlbumNotFoundException;
+import com.skettle.record_shop_api.exceptions.GenreNotAllowedException;
 import com.skettle.record_shop_api.model.Album;
 import com.skettle.record_shop_api.model.Genre;
 import com.skettle.record_shop_api.repository.AlbumRepository;
@@ -205,7 +206,7 @@ class AlbumServiceImplTest {
 
     @Test
     @DisplayName("getAlbumsByName() returns empty list if no matches")
-    void getAlbumsByNameTest2() {
+    void getAlbumsByNameNoMatchesTest() {
 
         List<Album> expectedAlbums = new ArrayList<>();
 
@@ -214,6 +215,46 @@ class AlbumServiceImplTest {
         List<Album> actualAlbums = albumService.getAlbumByName("Insides");
 
         assertEquals(expectedAlbums, actualAlbums);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumsByGenre() returns list of correct albums")
+    void getAlbumByGenreTest() {
+
+        List<Album> expectedAlbums = new ArrayList<>(List.of(
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5),
+                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 0),
+                new Album(5L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8)
+        ));
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbums = albumService.getAlbumByGenre("Electronic");
+
+        assertEquals(expectedAlbums, actualAlbums);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumsByGenre() returns empty list if no matches of valid genre")
+    void getAlbumByGenreNoMatchesTest() {
+
+        List<Album> expectedAlbums = new ArrayList<>();
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbums = albumService.getAlbumByGenre("Classical");
+
+        assertEquals(expectedAlbums, actualAlbums);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumsByGenre() throws GenreNotAllowed exception with invalid genre")
+    void getAlbumByGenreExceptionTest() {
+
+        assertThrows(GenreNotAllowedException.class, () -> { albumService.getAlbumByGenre("Shoegaze"); });
 
     }
 
