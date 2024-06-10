@@ -188,6 +188,36 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("getAlbumsByName() returns list of correct albums")
+    void getAlbumByNameTest() {
+
+        List<Album> expectedAlbum = new ArrayList<>(List.of(
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5)
+        ));
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbum = albumService.getAlbumByName("Singularity");
+
+        assertEquals(expectedAlbum, actualAlbum);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumsByName() returns empty list if no matches")
+    void getAlbumsByNameTest2() {
+
+        List<Album> expectedAlbums = new ArrayList<>();
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbums = albumService.getAlbumByName("Insides");
+
+        assertEquals(expectedAlbums, actualAlbums);
+
+    }
+
+    @Test
     @DisplayName("addNewAlbum() successfully persists album")
     void addNewAlbumTest() {
 
