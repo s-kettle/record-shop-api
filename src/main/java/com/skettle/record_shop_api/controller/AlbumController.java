@@ -27,6 +27,17 @@ public class AlbumController {
         return new ResponseEntity<>(albumService.getAlbumById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/instock")
+    public ResponseEntity<?> getAllAlbumsInStock() {
+        List<Album> albums = albumService.getAllAlbumsInStock();
+
+        if (albums.isEmpty()) {
+            return new ResponseEntity<>("No albums in stock", HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(albums, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Album> addNewAlbum(@RequestBody Album album) {
         Album newAlbum = albumService.addNewAlbum(album);

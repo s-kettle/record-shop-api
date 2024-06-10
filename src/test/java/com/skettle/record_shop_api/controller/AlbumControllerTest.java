@@ -68,6 +68,41 @@ class AlbumControllerTest {
     }
 
     @Test
+    @DisplayName("GET /albums/instock returns all albums in stock")
+    void getAllAlbumsInStockTest() throws Exception {
+
+        List<Album> albums = new ArrayList<>(List.of(
+                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
+                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
+                new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2)
+        ));
+
+        when(mockAlbumServiceImpl.getAllAlbumsInStock()).thenReturn(albums);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/albums/instock"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].stockQuantity").value(12))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].stockQuantity").value(8))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(3))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[2].stockQuantity").value(2));
+
+    }
+
+    @Test
+    @DisplayName("GET /albums/instock returns 404 if no albums in stock")
+    void getAllAlbumsInStockTest2() throws Exception {
+
+        when(mockAlbumServiceImpl.getAllAlbumsInStock()).thenReturn(new ArrayList<>());
+
+        this.mockMvcController.perform(
+                MockMvcRequestBuilders.get("/api/v1/albums/instock"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
     @DisplayName("GET /albums/:id returns correct album by ID")
     void getAlbumByIdTest() throws Exception {
 
