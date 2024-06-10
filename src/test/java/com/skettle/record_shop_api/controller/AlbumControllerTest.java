@@ -2,7 +2,6 @@ package com.skettle.record_shop_api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skettle.record_shop_api.model.Album;
-import com.skettle.record_shop_api.model.Artist;
 import com.skettle.record_shop_api.model.Genre;
 import com.skettle.record_shop_api.service.AlbumServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -51,9 +50,9 @@ class AlbumControllerTest {
     void getAllAlbumsTest() throws Exception {
 
         List<Album> albums = new ArrayList<>(List.of(
-                new Album(1L, new Artist(1L, "Nothing But Thieves", null), Genre.ROCK, "Moral Panic", 2020, 12),
-                new Album(2L, new Artist(2L, "Aphex Twin", null), Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-                new Album(3L, new Artist(3L, "Miles Davis", null), Genre.JAZZ, "Some Kind of Blue", 1959, 2)
+                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
+                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
+                new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2)
         ));
 
         when(mockAlbumServiceImpl.getAllAlbums()).thenReturn(albums);
@@ -72,7 +71,7 @@ class AlbumControllerTest {
     @DisplayName("GET /albums/:id returns correct album by ID")
     void getAlbumByIdTest() throws Exception {
 
-        Album testAlbum = new Album(4L, new Artist(1L, "Nothing But Thieves", null), Genre.ROCK, "Welcome to the DCC", 2023, 4);
+        Album testAlbum = new Album(4L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", 2023, 4);
 
         when(mockAlbumServiceImpl.getAlbumById(4L)).thenReturn(testAlbum);
 
@@ -88,7 +87,7 @@ class AlbumControllerTest {
     @DisplayName("POST /album adds new album")
     void addNewAlbumTest() throws Exception {
 
-        Album testAlbum = new Album(5L, new Artist(4L, "Jon Hopkins", null), Genre.ELECTRONIC, "Immunity", 2013, 5);
+        Album testAlbum = new Album(5L, "Jon Hopkins", Genre.ELECTRONIC, "Immunity", 2013, 5);
 
         when(mockAlbumServiceImpl.addNewAlbum(testAlbum)).thenReturn(testAlbum);
 
@@ -106,7 +105,7 @@ class AlbumControllerTest {
     @DisplayName("DELETE /album/:id deletes album")
     void deleteAlbumTest() throws Exception {
 
-        Album albumToDelete = new Album(7L, new Artist(6L, "Half Moon Run", null), Genre.ALTERNATIVE, "Salt", 2023, 9);
+        Album albumToDelete = new Album(7L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", 2023, 9);
 
         when(mockAlbumServiceImpl.deleteAlbum(albumToDelete.getId())).thenReturn(albumToDelete);
 

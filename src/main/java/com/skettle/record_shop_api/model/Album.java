@@ -16,8 +16,7 @@ public class Album {
     @GeneratedValue
     long id;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
-    Artist artist;
+    String artist;
 
     Genre genre;
 

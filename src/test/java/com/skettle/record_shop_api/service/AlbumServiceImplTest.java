@@ -2,7 +2,6 @@ package com.skettle.record_shop_api.service;
 
 import com.skettle.record_shop_api.exceptions.AlbumNotFoundException;
 import com.skettle.record_shop_api.model.Album;
-import com.skettle.record_shop_api.model.Artist;
 import com.skettle.record_shop_api.model.Genre;
 import com.skettle.record_shop_api.repository.AlbumRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -32,9 +31,9 @@ class AlbumServiceImplTest {
     void getAllAlbumsTest() {
 
         List<Album> albums = new ArrayList<>(List.of(
-           new Album(1L, new Artist(1L, "Nothing But Thieves", null), Genre.ROCK, "Moral Panic", 2020, 12),
-           new Album(2L, new Artist(2L, "Aphex Twin", null), Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-           new Album(3L, new Artist(3L, "Miles Davis", null), Genre.JAZZ, "Some Kind of Blue", 1959, 2)
+           new Album(1L, "Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
+           new Album(2L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
+           new Album(3L, "Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2)
         ));
 
         when(mockAlbumRepository.findAll()).thenReturn(albums);
@@ -49,7 +48,7 @@ class AlbumServiceImplTest {
     @DisplayName("getAlbumById() returns album by ID")
     void getAlbumByIdTest() {
 
-        Album testAlbum = new Album(4L, new Artist(1L, "Nothing But Thieves", null), Genre.ROCK, "Welcome to the DCC", 2023, 4);
+        Album testAlbum = new Album(4L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", 2023, 4);
 
         when(mockAlbumRepository.findById(4L)).thenReturn(Optional.of(testAlbum));
 
@@ -73,7 +72,7 @@ class AlbumServiceImplTest {
     @DisplayName("addNewAlbum() successfully persists album")
     void addNewAlbumTest() {
 
-        Album testAlbum = new Album(5L, new Artist(4L, "Jon Hopkins", null), Genre.ELECTRONIC, "Immunity", 2013, 5);
+        Album testAlbum = new Album(5L, "Jon Hopkins", Genre.ELECTRONIC, "Immunity", 2013, 5);
 
         when(mockAlbumRepository.save(testAlbum)).thenReturn(testAlbum);
 
@@ -87,8 +86,8 @@ class AlbumServiceImplTest {
     @DisplayName("updateAlbum() updates and returns album")
     void updateAlbum() {
 
-        Album testAlbum = new Album(6L, new Artist(5L, "Confidence Man", null), Genre.POP, "Tilt", 2022, 15);
-        Album updatedAlbum = new Album(6L, new Artist(5L, "Confidence Man", null), Genre.POP, "Re-Tilt", 2022, 15);
+        Album testAlbum = new Album(6L, "Confidence Man", Genre.POP, "Tilt", 2022, 15);
+        Album updatedAlbum = new Album(6L, "Confidence Man", Genre.POP, "Re-Tilt", 2022, 15);
 
         when(mockAlbumRepository.findById(6L)).thenReturn(Optional.of(testAlbum));
 
@@ -102,7 +101,7 @@ class AlbumServiceImplTest {
     @DisplayName("updateAlbum() throws AlbumNotFoundException with invalid ID")
     void updateAlbumExceptionTest() {
 
-        Album updatedAlbum = new Album(6L, new Artist(5L, "Confidence Man", null), Genre.POP, "Re-Tilt", 2022, 15);
+        Album updatedAlbum = new Album(6L, "Confidence Man", Genre.POP, "Re-Tilt", 2022, 15);
 
         assertThrows(AlbumNotFoundException.class, () -> {
             albumService.updateAlbum(100L, updatedAlbum);
@@ -114,7 +113,7 @@ class AlbumServiceImplTest {
     @DisplayName("deleteAlbumById() deletes album")
     public void deleteAlbumTest() {
 
-        Album albumToDelete = new Album(7L, new Artist(6L, "Half Moon Run", null), Genre.ALTERNATIVE, "Salt", 2023, 9);
+        Album albumToDelete = new Album(7L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", 2023, 9);
 
         when(mockAlbumRepository.findById(albumToDelete.getId())).thenReturn(Optional.of(albumToDelete));
 
