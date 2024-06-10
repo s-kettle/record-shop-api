@@ -4,6 +4,7 @@ import com.skettle.record_shop_api.exceptions.AlbumNotFoundException;
 import com.skettle.record_shop_api.model.Album;
 import com.skettle.record_shop_api.model.Genre;
 import com.skettle.record_shop_api.repository.AlbumRepository;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -67,6 +68,55 @@ class AlbumServiceImplTest {
         });
 
     }
+
+    @Test
+    @DisplayName("getAllAlbumsInStock() returns only albums in stock")
+    void getAllAlbumsInStockTest() {
+        List<Album> albums = new ArrayList<>(List.of(
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5),
+                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 12),
+                new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", 2022, 0)
+        ));
+
+        List<Album> albumsInStock = new ArrayList<>(List.of(
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5),
+                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 12)
+        ));
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> returnedAlbums = albumService.getAllAlbumsInStock();
+
+        assertEquals(albumsInStock, returnedAlbums);
+    }
+
+    @Test
+    @DisplayName("getAllAlbumsInStock() returns empty list if none in stock")
+    void getAllAlbumsInStockTest2() {
+        List<Album> albums = new ArrayList<>(List.of(
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 0),
+                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 0),
+                new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", 2022, 0)
+        ));
+
+        List<Album> albumsInStock = new ArrayList<>();
+
+        List<Album> returnedAlbums = albumService.getAllAlbumsInStock();
+
+        assertEquals(albumsInStock, returnedAlbums);
+
+    }
+
+    @Test
+    @DisplayName("getAllAlbumsInStock() returns empty list if no albums in database")
+    void getAllAlbumsInStockTest3() {
+        List<Album> albumsInStock = new ArrayList<>();
+
+        List<Album> returnedAlbums = albumService.getAllAlbumsInStock();
+
+        assertEquals(albumsInStock, returnedAlbums);
+    }
+
 
     @Test
     @DisplayName("addNewAlbum() successfully persists album")

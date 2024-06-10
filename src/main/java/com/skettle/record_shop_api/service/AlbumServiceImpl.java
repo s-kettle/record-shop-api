@@ -30,6 +30,13 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    public List<Album> getAllAlbumsInStock() {
+        List<Album> albums = new ArrayList<>();
+        albumRepository.findAll().forEach(albums::add);
+        return albums.stream().filter(a -> a.getStockQuantity() > 0).toList();
+    }
+
+    @Override
     public Album addNewAlbum(Album album) {
 
         Album existingAlbum = albumRepository.findById(album.getId()).orElse(null);
