@@ -18,7 +18,42 @@ public class AlbumController {
     AlbumService albumService;
 
     @GetMapping
-    public ResponseEntity<List<Album>> getAllAlbums() {
+    public ResponseEntity<?> getAlbumsByFilterElseAll(
+            @RequestParam(required = false) String artist,
+            @RequestParam(required = false) String year,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String name) {
+
+        // Check for filters first
+        if (artist != null) {
+            List<Album> albums = albumService.getAlbumsByArtist(artist);
+            return albums.isEmpty() ?
+                    new ResponseEntity<>("No albums with artist " + artist, HttpStatus.NOT_FOUND) :
+                    new ResponseEntity<>(albumService.getAlbumsByArtist(artist), HttpStatus.OK);
+        }
+
+        if (year != null) {
+            List<Album> albums = albumService.getAlbumsByYear(Integer.parseInt(year));
+            return albums.isEmpty() ?
+                    new ResponseEntity<>("No albums of year " + year, HttpStatus.NOT_FOUND) :
+                    new ResponseEntity<>(albumService.getAlbumsByYear(Integer.parseInt(year)), HttpStatus.OK);
+        }
+
+        if (genre != null) {
+            List<Album> albums = albumService.getAlbumByGenre(genre);
+            return albums.isEmpty() ?
+                    new ResponseEntity<>("No albums of genre: " + genre, HttpStatus.NOT_FOUND) :
+                    new ResponseEntity<>(albumService.getAlbumByGenre(genre), HttpStatus.OK);
+        }
+
+        if (name != null) {
+            List<Album> albums = albumService.getAlbumByName(name);
+            return albums.isEmpty() ?
+                    new ResponseEntity<>("No albums with name: " + name, HttpStatus.NOT_FOUND) :
+                    new ResponseEntity<>(albumService.getAlbumByName(name), HttpStatus.OK);
+        }
+
+        // If no request parameters are specified, return all albums by default
         return new ResponseEntity<>(albumService.getAllAlbums(), HttpStatus.OK);
     }
 
