@@ -9,6 +9,7 @@ public interface AlbumService {
     Album getAlbumById(long id);
     List<Album> getAllAlbumsInStock();
     List<Album> getAlbumsByArtist(String artist);
+    List<Album> getAlbumsByYear(int year);
 
     Album addNewAlbum(Album album);
     Album updateAlbum(long id, Album album);

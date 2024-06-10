@@ -157,6 +157,37 @@ class AlbumServiceImplTest {
     }
 
     @Test
+    @DisplayName("getAlbumsByYear() returns list of albums by year")
+    void getAlbumsByYearTest() {
+
+        List<Album> expectedAlbums = new ArrayList<>(List.of(
+                new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", 2022, 0),
+                new Album(10L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", 2022, 0)
+        ));
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbums = albumService.getAlbumsByYear(2022);
+
+        assertEquals(expectedAlbums, actualAlbums);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumsByYear() returns empty if no matches")
+    void getAlbumsByYearTest2() {
+
+        List<Album> expectedAlbums = new ArrayList<>();
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbums = albumService.getAlbumsByYear(1999);
+
+        assertEquals(expectedAlbums, actualAlbums);
+
+    }
+
+    @Test
     @DisplayName("addNewAlbum() successfully persists album")
     void addNewAlbumTest() {
 
