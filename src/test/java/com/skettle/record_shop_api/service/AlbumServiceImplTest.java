@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @DataJpaTest
 class AlbumServiceImplTest {
@@ -108,5 +108,29 @@ class AlbumServiceImplTest {
             albumService.updateAlbum(100L, updatedAlbum);
         });
 
+    }
+
+    @Test
+    @DisplayName("deleteAlbumById() deletes album")
+    public void deleteAlbumTest() {
+
+        Album albumToDelete = new Album(7L, new Artist(6L, "Half Moon Run", null), Genre.ALTERNATIVE, "Salt", 2023, 9);
+
+        when(mockAlbumRepository.findById(albumToDelete.getId())).thenReturn(Optional.of(albumToDelete));
+
+        Album returnedAlbum = albumService.deleteAlbum(albumToDelete.getId());
+
+        verify(mockAlbumRepository, times(1)).deleteById(albumToDelete.getId());
+    }
+
+    @Test
+    @DisplayName("deleteAlbumById() throws AlbumNotFoundException if ID not found")
+    public void deleteAlbumExceptionTest() {
+
+        assertThrows(AlbumNotFoundException.class, () -> {
+            albumService.deleteAlbum(100L);
+        });
+
+        verify(mockAlbumRepository, times(0)).deleteById(100L);
     }
 }
