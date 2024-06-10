@@ -110,6 +110,7 @@ class AlbumServiceImplTest {
     @Test
     @DisplayName("getAllAlbumsInStock() returns empty list if no albums in database")
     void getAllAlbumsInStockTest3() {
+
         List<Album> albumsInStock = new ArrayList<>();
 
         List<Album> returnedAlbums = albumService.getAllAlbumsInStock();
@@ -117,6 +118,47 @@ class AlbumServiceImplTest {
         assertEquals(albumsInStock, returnedAlbums);
     }
 
+    @Test
+    @DisplayName("getAlbumsByArtist() returns list of albums by artist")
+    void getAlbumsByArtistTest() {
+
+        List<Album> albums = new ArrayList<>(List.of(
+                new Album(1L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", 1967, 7),
+                new Album(2L, "Carly Rae Jepsen", Genre.POP, "Kiss", 2012, 4),
+                new Album(3L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", 1957, 18)
+        ));
+
+        List<Album> expectedAlbums = new ArrayList<>(List.of(
+                new Album(1L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", 1967, 7),
+                new Album(3L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", 1957, 18)
+        ));
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbums = albumService.getAlbumsByArtist("Thelonius Monk");
+
+        assertEquals(expectedAlbums, actualAlbums);
+
+    }
+
+    @Test
+    @DisplayName("getAlbumsByArtist() returns empty list if no matches")
+    void getAlbumsByArtistTest2() {
+        List<Album> albums = new ArrayList<>(List.of(
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 0),
+                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 0),
+                new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", 2022, 0)
+        ));
+
+        List<Album> expectedAlbums = new ArrayList<>();
+
+        when(mockAlbumRepository.findAll()).thenReturn(albums);
+
+        List<Album> actualAlbums = albumService.getAlbumsByArtist("Charlie Parker");
+
+        assertEquals(expectedAlbums, actualAlbums);
+
+    }
 
     @Test
     @DisplayName("addNewAlbum() successfully persists album")

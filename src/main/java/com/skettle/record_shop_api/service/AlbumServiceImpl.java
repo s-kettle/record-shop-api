@@ -37,6 +37,13 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    public List<Album> getAlbumsByArtist(String artist) {
+        List<Album> albums = new ArrayList<>();
+        albumRepository.findAll().forEach(albums::add);
+        return albums.stream().filter(a -> a.getArtist().equalsIgnoreCase(artist)).toList();
+    }
+
+    @Override
     public Album addNewAlbum(Album album) {
 
         Album existingAlbum = albumRepository.findById(album.getId()).orElse(null);
