@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
@@ -98,6 +99,21 @@ class AlbumControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
         verify(mockAlbumServiceImpl, times(1)).addNewAlbum(testAlbum);
+
+    }
+
+    @Test
+    @DisplayName("DELETE /album/:id deletes album")
+    void deleteAlbumTest() throws Exception {
+
+        Album albumToDelete = new Album(7L, new Artist(6L, "Half Moon Run", null), Genre.ALTERNATIVE, "Salt", 2023, 9);
+
+        when(mockAlbumServiceImpl.deleteAlbum(albumToDelete.getId())).thenReturn(albumToDelete);
+
+        this.mockMvcController.perform(
+                MockMvcRequestBuilders.delete("/api/v1/albums/" + albumToDelete.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
     }
 }

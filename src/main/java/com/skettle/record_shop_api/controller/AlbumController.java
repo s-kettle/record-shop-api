@@ -35,4 +35,15 @@ public class AlbumController {
         return new ResponseEntity<>(newAlbum, httpHeaders, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Album> updateAlbum(@RequestBody Album album, @PathVariable long id) {
+        Album updatedAlbum = albumService.updateAlbum(id, album);
+        return new ResponseEntity<>(updatedAlbum, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Album> deleteAlbum(@PathVariable long id) {
+        return new ResponseEntity<>(albumService.deleteAlbum(id), HttpStatus.OK);
+    }
+
 }
