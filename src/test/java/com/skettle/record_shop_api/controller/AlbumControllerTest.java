@@ -39,6 +39,15 @@ class AlbumControllerTest {
 
     private ObjectMapper mapper;
 
+    List<Album> albums = new ArrayList<>(List.of(
+            new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
+            new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
+            new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2),
+            new Album(4L,"Jessie Ware", Genre.POP, "What's Your Pleasure?", 2020, 6),
+            new Album(5L,"Aphex Twin", Genre.ELECTRONIC, "Druqks", 2001, 6),
+            new Album(6L,"Jon Hopkins", Genre.ELECTRONIC, "Insides", 2009, 10)
+    ));
+
     @BeforeEach
     public void setup() {
         mockMvcController = MockMvcBuilders.standaloneSetup(albumController).build();
@@ -49,13 +58,12 @@ class AlbumControllerTest {
     @DisplayName("GET /albums returns all albums")
     void getAllAlbumsTest() throws Exception {
 
-        List<Album> albums = new ArrayList<>(List.of(
+        List<Album> smallAlbums = new ArrayList<>(List.of(
                 new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
-                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-                new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2)
+                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8)
         ));
 
-        when(mockAlbumServiceImpl.getAllAlbums()).thenReturn(albums);
+        when(mockAlbumServiceImpl.getAllAlbums()).thenReturn(smallAlbums);
 
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.get("/api/v1/albums"))
@@ -117,6 +125,93 @@ class AlbumControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Welcome to the DCC"));
 
     }
+
+    @Test
+    @DisplayName("GET albums?artist=* returns albums by artist")
+    void getAllAlbumsArtistParamTest() throws Exception {
+
+        List<Album> artistAlbums = new ArrayList<>(List.of(
+                new Album(1L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
+                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Druqks", 2001, 6)
+        ));
+
+        when(mockAlbumServiceImpl.getAlbumsByArtist("Aphex+Twin")).thenReturn(artistAlbums);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/albums?artist=Aphex+Twin"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].artist").value("Aphex Twin"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Selected Ambient Works 85-92"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].artist").value("Aphex Twin"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("Druqks"));
+
+    }
+
+    @Test
+    @DisplayName("GET albums?genre=* returns albums by genre")
+    void getAllAlbumsGenreParamTest() throws Exception {
+
+        List<Album> genreAlbums = new ArrayList<>(List.of(
+                new Album(1L, "Aphex Twin", Genre.ELECTRONIC, "Druqks", 2001, 6),
+                new Album(2L, "Jon Hopkins", Genre.ELECTRONIC, "Insides", 2009, 10)
+        ));
+
+        when(mockAlbumServiceImpl.getAlbumByGenre("Electronic")).thenReturn(genreAlbums);
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/albums?genre=Electronic"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].artist").value("Aphex Twin"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].genre").value("ELECTRONIC"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].artist").value("Jon Hopkins"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].genre").value("ELECTRONIC"));
+
+    }
+
+    @Test
+    @DisplayName("GET albums?year=* returns albums by year")
+    void getAllAlbumsYearParamTest() throws Exception {
+
+        List<Album> yearAlbums = new ArrayList<>(List.of(
+                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
+                new Album(2L,"Jessie Ware", Genre.POP, "What's Your Pleasure?", 2020, 6)
+        ));
+
+        when(mockAlbumServiceImpl.getAlbumsByYear(2020)).thenReturn(yearAlbums);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/albums?year=2020"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].artist").value("Nothing But Thieves"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].releaseYear").value(2020))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].id").value(2))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].artist").value("Jessie Ware"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[1].releaseYear").value(2020));
+
+    }
+
+    @Test
+    @DisplayName("GET albums?name=* returns albums by name")
+    void getAllAlbumsNameParamTest() throws Exception {
+
+        List<Album> namedAlbum = new ArrayList<>(List.of(
+                new Album(1L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", 2023, 4)
+        ));
+
+        when(mockAlbumServiceImpl.getAlbumByName("Welcome+to+the+DCC")).thenReturn(namedAlbum);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/albums?name=Welcome+to+the+DCC"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(1))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Welcome to the DCC"));
+
+    }
+
 
     @Test
     @DisplayName("POST /album adds new album")
