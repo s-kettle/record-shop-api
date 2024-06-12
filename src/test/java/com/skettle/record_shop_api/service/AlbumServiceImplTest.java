@@ -273,7 +273,7 @@ class AlbumServiceImplTest {
     }
 
     @Test
-    @DisplayName("updateAlbum() updates and returns album")
+    @DisplayName("updateAlbum() updates and returns album at same ID")
     void updateAlbum() {
 
         Album testAlbum = new Album(6L, "Confidence Man", Genre.POP, "Tilt", 2022, 15);
@@ -284,6 +284,7 @@ class AlbumServiceImplTest {
         Album returnedAlbum = albumService.updateAlbum(6L, updatedAlbum);
 
         assertEquals(updatedAlbum, returnedAlbum);
+        assertEquals(updatedAlbum.getId(), returnedAlbum.getId());
 
     }
 
@@ -322,4 +323,6 @@ class AlbumServiceImplTest {
 
         verify(mockAlbumRepository, times(0)).deleteById(100L);
     }
+
+
 }
