@@ -7,6 +7,11 @@ import com.skettle.record_shop_api.model.Album;
 import com.skettle.record_shop_api.model.Genre;
 import com.skettle.record_shop_api.repository.AlbumRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +23,9 @@ public class AlbumServiceImpl implements AlbumService {
     @Autowired
     AlbumRepository albumRepository;
 
+    @Autowired
+    CacheManager cacheManager;
+
     @Override
     public List<Album> getAllAlbums() {
         List<Album> albums = new ArrayList<>();
@@ -26,7 +34,9 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @Cacheable("albums")
     public Album getAlbumById(long id) {
+        System.out.println("Call to database made - getAlbumById()");
         return albumRepository.findById(id)
                 .orElseThrow(() -> new AlbumNotFoundException("Album with ID " + id + " not found."));
     }
@@ -83,6 +93,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @CacheEvict(value = "albums", allEntries = true)
     public Album updateAlbum(long id, Album album) {
         Album albumToUpdate = albumRepository.findById(id)
                 .orElseThrow(() -> new AlbumNotFoundException("Album with ID " + id + " not found."));
@@ -104,6 +115,11 @@ public class AlbumServiceImpl implements AlbumService {
 
         albumRepository.deleteById(existingAlbum.getId());
         return existingAlbum;
+    }
+
+    @Scheduled(fixedRate = 60 * 1000)
+    public void clearCache() {
+        cacheManager.getCache("albums").clear();
     }
 
 }
