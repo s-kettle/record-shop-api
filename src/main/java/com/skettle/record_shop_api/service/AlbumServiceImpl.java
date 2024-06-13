@@ -109,6 +109,7 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
+    @CacheEvict(value = "albums", allEntries = true)
     public Album deleteAlbum(long id) {
         Album existingAlbum = albumRepository.findById(id)
                 .orElseThrow(() -> new AlbumNotFoundException("Album with ID" + id + " not found."));
