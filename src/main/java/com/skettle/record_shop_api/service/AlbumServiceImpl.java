@@ -36,7 +36,6 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     @Cacheable("albums")
     public Album getAlbumById(long id) {
-        System.out.println("Call to database made - getAlbumById()");
         return albumRepository.findById(id)
                 .orElseThrow(() -> new AlbumNotFoundException("Album with ID " + id + " not found."));
     }
