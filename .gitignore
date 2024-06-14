@@ -35,3 +35,4 @@ build/
 ### Properties ###
 application.properties
 application-prod.properties
+application-aws.properties
