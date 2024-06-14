@@ -11,21 +11,21 @@ public class GlobalExceptionHandler {
     @ExceptionHandler({AlbumNotFoundException.class})
     public ResponseEntity<Object> handleAlbumNotFoundException(AlbumNotFoundException e) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
 
     @ExceptionHandler({AlbumAlreadyExistsException.class})
     public ResponseEntity<Object> handleAlbumAlreadyExistsException(AlbumAlreadyExistsException e) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
 
     @ExceptionHandler({GenreNotAllowedException.class})
     public ResponseEntity<Object> handleGenreNotAllowedException(GenreNotAllowedException e) {
         return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
 
