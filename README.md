@@ -200,9 +200,9 @@ or returns an error if the album is not found
 ```
 Album with ID 10 not found.
 ```
+## Health status
 
-
-
+Server status can be checked at endpoint ```/actuator/health```
 
 # Database Connections
 
