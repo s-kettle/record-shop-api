@@ -29,16 +29,16 @@ class AlbumServiceImplTest {
     AlbumServiceImpl albumService;
 
     List<Album> albums = new ArrayList<>(List.of(
-            new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5),
-            new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 0),
-            new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", 2022, 0),
-            new Album(4L, "Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
-            new Album(5L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-            new Album(6L, "Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2),
-            new Album(7L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", 1967, 7),
-            new Album(8L, "Carly Rae Jepsen", Genre.POP, "Kiss", 2012, 4),
-            new Album(9L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", 1957, 18),
-            new Album(10L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", 2022, 0)
+            new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", null, 2018, 5),
+            new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", null, 2024, 0),
+            new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", null, 2022, 0),
+            new Album(4L, "Nothing But Thieves", Genre.ROCK, "Moral Panic", null, 2020, 12),
+            new Album(5L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", null, 1992, 8),
+            new Album(6L, "Miles Davis", Genre.JAZZ, "Some Kind of Blue", null, 1959, 2),
+            new Album(7L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", null, 1967, 7),
+            new Album(8L, "Carly Rae Jepsen", Genre.POP, "Kiss", null, 2012, 4),
+            new Album(9L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", null, 1957, 18),
+            new Album(10L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", null, 2022, 0)
     ));
 
     @Test
@@ -57,7 +57,7 @@ class AlbumServiceImplTest {
     @DisplayName("getAlbumById() returns album by ID")
     void getAlbumByIdTest() {
 
-        Album testAlbum = new Album(4L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", 2023, 4);
+        Album testAlbum = new Album(4L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", null, 2023, 4);
 
         when(mockAlbumRepository.findById(4L)).thenReturn(Optional.of(testAlbum));
 
@@ -82,13 +82,13 @@ class AlbumServiceImplTest {
     void getAllAlbumsInStockTest() {
 
         List<Album> albumsInStock = new ArrayList<>(List.of(
-                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5),
-                new Album(4L, "Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
-                new Album(5L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-                new Album(6L, "Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2),
-                new Album(7L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", 1967, 7),
-                new Album(8L, "Carly Rae Jepsen", Genre.POP, "Kiss", 2012, 4),
-                new Album(9L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", 1957, 18)
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", null, 2018, 5),
+                new Album(4L, "Nothing But Thieves", Genre.ROCK, "Moral Panic", null, 2020, 12),
+                new Album(5L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", null, 1992, 8),
+                new Album(6L, "Miles Davis", Genre.JAZZ, "Some Kind of Blue", null, 1959, 2),
+                new Album(7L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", null, 1967, 7),
+                new Album(8L, "Carly Rae Jepsen", Genre.POP, "Kiss", null, 2012, 4),
+                new Album(9L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", null, 1957, 18)
         ));
 
         when(mockAlbumRepository.findAll()).thenReturn(albums);
@@ -103,8 +103,8 @@ class AlbumServiceImplTest {
     void getAllAlbumsInStockTest2() {
 
         List<Album> albums = new ArrayList<>(List.of(
-                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 0),
-                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 0)
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", null, 2018, 0),
+                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", null, 2024, 0)
         ));
 
         List<Album> albumsInStock = new ArrayList<>();
@@ -131,8 +131,8 @@ class AlbumServiceImplTest {
     void getAlbumsByArtistTest() {
 
         List<Album> expectedAlbums = new ArrayList<>(List.of(
-                new Album(7L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", 1967, 7),
-                new Album(9L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", 1957, 18)
+                new Album(7L, "Thelonius Monk", Genre.JAZZ, "Straight, No Chaser", null, 1967, 7),
+                new Album(9L, "Thelonius Monk", Genre.JAZZ, "Brilliant Corners", null, 1957, 18)
         ));
 
         when(mockAlbumRepository.findAll()).thenReturn(albums);
@@ -162,8 +162,8 @@ class AlbumServiceImplTest {
     void getAlbumsByYearTest() {
 
         List<Album> expectedAlbums = new ArrayList<>(List.of(
-                new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", 2022, 0),
-                new Album(10L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", 2022, 0)
+                new Album(3L, "Paleface Swiss", Genre.METAL, "Fear & Dagger", null, 2022, 0),
+                new Album(10L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", null, 2022, 0)
         ));
 
         when(mockAlbumRepository.findAll()).thenReturn(albums);
@@ -193,7 +193,7 @@ class AlbumServiceImplTest {
     void getAlbumByNameTest() {
 
         List<Album> expectedAlbum = new ArrayList<>(List.of(
-                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5)
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", null, 2018, 5)
         ));
 
         when(mockAlbumRepository.findAll()).thenReturn(albums);
@@ -223,9 +223,9 @@ class AlbumServiceImplTest {
     void getAlbumByGenreTest() {
 
         List<Album> expectedAlbums = new ArrayList<>(List.of(
-                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", 2018, 5),
-                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", 2024, 0),
-                new Album(5L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8)
+                new Album(1L, "Jon Hopkins", Genre.ELECTRONIC, "Singularity", null, 2018, 5),
+                new Album(2L, "Four Tet", Genre.ELECTRONIC, "Three", null, 2024, 0),
+                new Album(5L, "Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", null, 1992, 8)
         ));
 
         when(mockAlbumRepository.findAll()).thenReturn(albums);
@@ -262,7 +262,7 @@ class AlbumServiceImplTest {
     @DisplayName("addNewAlbum() successfully persists album")
     void addNewAlbumTest() {
 
-        Album testAlbum = new Album(5L, "Jon Hopkins", Genre.ELECTRONIC, "Immunity", 2013, 5);
+        Album testAlbum = new Album(5L, "Jon Hopkins", Genre.ELECTRONIC, "Immunity", null, 2013, 5);
 
         when(mockAlbumRepository.save(testAlbum)).thenReturn(testAlbum);
 
@@ -276,8 +276,8 @@ class AlbumServiceImplTest {
     @DisplayName("updateAlbum() updates and returns album at same ID")
     void updateAlbum() {
 
-        Album testAlbum = new Album(6L, "Confidence Man", Genre.POP, "Tilt", 2022, 15);
-        Album updatedAlbum = new Album(6L, "Confidence Man", Genre.POP, "Re-Tilt", 2022, 15);
+        Album testAlbum = new Album(6L, "Confidence Man", Genre.POP, "Tilt", null, 2022, 15);
+        Album updatedAlbum = new Album(6L, "Confidence Man", Genre.POP, "Re-Tilt", null, 2022, 15);
 
         when(mockAlbumRepository.findById(6L)).thenReturn(Optional.of(testAlbum));
 
@@ -292,7 +292,7 @@ class AlbumServiceImplTest {
     @DisplayName("updateAlbum() throws AlbumNotFoundException with invalid ID")
     void updateAlbumExceptionTest() {
 
-        Album updatedAlbum = new Album(6L, "Confidence Man", Genre.POP, "Re-Tilt", 2022, 15);
+        Album updatedAlbum = new Album(6L, "Confidence Man", Genre.POP, "Re-Tilt", null, 2022, 15);
 
         assertThrows(AlbumNotFoundException.class, () -> {
             albumService.updateAlbum(100L, updatedAlbum);
@@ -304,7 +304,7 @@ class AlbumServiceImplTest {
     @DisplayName("deleteAlbumById() deletes album")
     public void deleteAlbumTest() {
 
-        Album albumToDelete = new Album(7L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", 2023, 9);
+        Album albumToDelete = new Album(7L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", null, 2023, 9);
 
         when(mockAlbumRepository.findById(albumToDelete.getId())).thenReturn(Optional.of(albumToDelete));
 

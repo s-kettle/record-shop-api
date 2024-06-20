@@ -22,6 +22,9 @@ public class Album {
 
     String name;
 
+    @Column(name = "art_url")
+    String artUrl;
+
     @Column(name = "release_year")
     int releaseYear;
 

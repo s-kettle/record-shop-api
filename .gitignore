@@ -33,6 +33,9 @@ build/
 .vscode/
 
 ### Properties ###
-application.properties
-application-prod.properties
-application-aws.properties
+application.yml
+application-prod.yml
+application-aws.yml
+
+### Other ###
+dummy-data.json

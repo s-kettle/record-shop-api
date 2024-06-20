@@ -40,12 +40,12 @@ class AlbumControllerTest {
     private ObjectMapper mapper;
 
     List<Album> albums = new ArrayList<>(List.of(
-            new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
-            new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-            new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2),
-            new Album(4L,"Jessie Ware", Genre.POP, "What's Your Pleasure?", 2020, 6),
-            new Album(5L,"Aphex Twin", Genre.ELECTRONIC, "Druqks", 2001, 6),
-            new Album(6L,"Jon Hopkins", Genre.ELECTRONIC, "Insides", 2009, 10)
+            new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", null, 2020, 12),
+            new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", null, 1992, 8),
+            new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", null, 1959, 2),
+            new Album(4L,"Jessie Ware", Genre.POP, "What's Your Pleasure?", null, 2020, 6),
+            new Album(5L,"Aphex Twin", Genre.ELECTRONIC, "Druqks", null, 2001, 6),
+            new Album(6L,"Jon Hopkins", Genre.ELECTRONIC, "Insides", null, 2009, 10)
     ));
 
     @BeforeEach
@@ -59,8 +59,8 @@ class AlbumControllerTest {
     void getAllAlbumsTest() throws Exception {
 
         List<Album> smallAlbums = new ArrayList<>(List.of(
-                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
-                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8)
+                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", null, 2020, 12),
+                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", null, 1992, 8)
         ));
 
         when(mockAlbumServiceImpl.getAllAlbums()).thenReturn(smallAlbums);
@@ -80,9 +80,9 @@ class AlbumControllerTest {
     void getAllAlbumsInStockTest() throws Exception {
 
         List<Album> albums = new ArrayList<>(List.of(
-                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
-                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-                new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", 1959, 2)
+                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", null, 2020, 12),
+                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", null, 1992, 8),
+                new Album(3L,"Miles Davis", Genre.JAZZ, "Some Kind of Blue", null, 1959, 2)
         ));
 
         when(mockAlbumServiceImpl.getAllAlbumsInStock()).thenReturn(albums);
@@ -114,7 +114,7 @@ class AlbumControllerTest {
     @DisplayName("GET /albums/:id returns correct album by ID")
     void getAlbumByIdTest() throws Exception {
 
-        Album testAlbum = new Album(4L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", 2023, 4);
+        Album testAlbum = new Album(4L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", null, 2023, 4);
 
         when(mockAlbumServiceImpl.getAlbumById(4L)).thenReturn(testAlbum);
 
@@ -131,8 +131,8 @@ class AlbumControllerTest {
     void getAllAlbumsArtistParamTest() throws Exception {
 
         List<Album> artistAlbums = new ArrayList<>(List.of(
-                new Album(1L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", 1992, 8),
-                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Druqks", 2001, 6)
+                new Album(1L,"Aphex Twin", Genre.ELECTRONIC, "Selected Ambient Works 85-92", null, 1992, 8),
+                new Album(2L,"Aphex Twin", Genre.ELECTRONIC, "Druqks", null, 2001, 6)
         ));
 
         when(mockAlbumServiceImpl.getAlbumsByArtist("Aphex+Twin")).thenReturn(artistAlbums);
@@ -154,8 +154,8 @@ class AlbumControllerTest {
     void getAllAlbumsGenreParamTest() throws Exception {
 
         List<Album> genreAlbums = new ArrayList<>(List.of(
-                new Album(1L, "Aphex Twin", Genre.ELECTRONIC, "Druqks", 2001, 6),
-                new Album(2L, "Jon Hopkins", Genre.ELECTRONIC, "Insides", 2009, 10)
+                new Album(1L, "Aphex Twin", Genre.ELECTRONIC, "Druqks", null, 2001, 6),
+                new Album(2L, "Jon Hopkins", Genre.ELECTRONIC, "Insides", null, 2009, 10)
         ));
 
         when(mockAlbumServiceImpl.getAlbumByGenre("Electronic")).thenReturn(genreAlbums);
@@ -176,8 +176,8 @@ class AlbumControllerTest {
     void getAllAlbumsYearParamTest() throws Exception {
 
         List<Album> yearAlbums = new ArrayList<>(List.of(
-                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", 2020, 12),
-                new Album(2L,"Jessie Ware", Genre.POP, "What's Your Pleasure?", 2020, 6)
+                new Album(1L,"Nothing But Thieves", Genre.ROCK, "Moral Panic", null, 2020, 12),
+                new Album(2L,"Jessie Ware", Genre.POP, "What's Your Pleasure?", null, 2020, 6)
         ));
 
         when(mockAlbumServiceImpl.getAlbumsByYear(2020)).thenReturn(yearAlbums);
@@ -199,7 +199,7 @@ class AlbumControllerTest {
     void getAllAlbumsNameParamTest() throws Exception {
 
         List<Album> namedAlbum = new ArrayList<>(List.of(
-                new Album(1L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", 2023, 4)
+                new Album(1L, "Nothing But Thieves", Genre.ROCK, "Welcome to the DCC", null, 2023, 4)
         ));
 
         when(mockAlbumServiceImpl.getAlbumByName("Welcome+to+the+DCC")).thenReturn(namedAlbum);
@@ -217,7 +217,7 @@ class AlbumControllerTest {
     @DisplayName("POST /album adds new album")
     void addNewAlbumTest() throws Exception {
 
-        Album testAlbum = new Album(5L, "Jon Hopkins", Genre.ELECTRONIC, "Immunity", 2013, 5);
+        Album testAlbum = new Album(5L, "Jon Hopkins", Genre.ELECTRONIC, "Immunity", null, 2013, 5);
 
         when(mockAlbumServiceImpl.addNewAlbum(testAlbum)).thenReturn(testAlbum);
 
@@ -235,7 +235,7 @@ class AlbumControllerTest {
     @DisplayName("DELETE /album/:id deletes album")
     void deleteAlbumTest() throws Exception {
 
-        Album albumToDelete = new Album(7L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", 2023, 9);
+        Album albumToDelete = new Album(7L, "Half Moon Run", Genre.ALTERNATIVE, "Salt", null, 2023, 9);
 
         when(mockAlbumServiceImpl.deleteAlbum(albumToDelete.getId())).thenReturn(albumToDelete);
 
