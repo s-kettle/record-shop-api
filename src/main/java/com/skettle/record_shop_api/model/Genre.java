@@ -9,7 +9,8 @@ public enum Genre {
     JAZZ,
     METAL,
     ALTERNATIVE,
-    CLASSICAL;
+    CLASSICAL,
+    RAP;
 
     public static boolean isValid(String name) {
         return Arrays.stream(values()).anyMatch(e -> e.name().equals(name));
