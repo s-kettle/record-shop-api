@@ -88,6 +88,9 @@ public class AlbumServiceImpl implements AlbumService {
             throw new AlbumAlreadyExistsException("Album with ID " + album.getId() + " already exists.");
         }
 
+        String upperGenre = album.getGenre().toString().toUpperCase();
+        album.setGenre(Genre.valueOf(upperGenre));
+
         return albumRepository.save(album);
     }
 
