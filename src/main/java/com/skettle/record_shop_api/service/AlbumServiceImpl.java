@@ -104,6 +104,7 @@ public class AlbumServiceImpl implements AlbumService {
         albumToUpdate.setName(album.getName());
         albumToUpdate.setReleaseYear(album.getReleaseYear());
         albumToUpdate.setGenre(album.getGenre());
+        albumToUpdate.setArtUrl(album.getArtUrl());
         albumToUpdate.setStockQuantity(album.getStockQuantity());
 
         albumRepository.save(albumToUpdate);
